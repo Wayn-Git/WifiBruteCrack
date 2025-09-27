@@ -23,7 +23,7 @@ def get_network_list():
 		_ssids.append(_ssid)
 		net_names.append(_ssid_name)
 
-	net_array.append(num_net,_ssids,net_names)
+	net_array.append([num_net, _ssids, net_names])
 	return net_array
 
 def _sanitize_field(node):
@@ -40,16 +40,16 @@ def get_password_array(password):
 	alllow_pass = password
 	pass_array.append(alllow_pass)
 	#all upper
-	allup_pass = _pass.upper()
+	allup_pass = password.upper()
 	pass_array.append(allup_pass)
 	#first upper
-	fup_pass = "".join(c.upper() if i in set([0]) else c for i, c in enumerate(_pass))
+	fup_pass = "".join(c.upper() if i in set([0]) else c for i, c in enumerate(password))
 	pass_array.append(fup_pass)
 	#every other lower
-	eol_pass = "".join(c.lower() if i % 2 == 0  else c for i, c in enumerate(_pass))
+	eol_pass = "".join(c.lower() if i % 2 == 0  else c for i, c in enumerate(password))
 	pass_array.append(eol_pass)
 	#every other upper
-	eou_pass = "".join(c.upper() if i % 2 == 0  else c for i, c in enumerate(_pass))
+	eou_pass = "".join(c.upper() if i % 2 == 0  else c for i, c in enumerate(password))
 	pass_array.append(eou_pass)
 
 	password_data.append(len(pass_array))
@@ -58,9 +58,9 @@ def get_password_array(password):
 
 
 def process_element(itera,elem,networks):
-	net_size = net_array[0]
-	net_data = net_array[1]
-	net_names_array = net_array[2]
+	net_size = networks[0]
+	net_data = networks[1]
+	net_names_array = networks[2]
 	_freq = _sanitize_field(elem[1])
 	_password = _sanitize_field(elem[0])
 
@@ -85,7 +85,7 @@ def process_element(itera,elem,networks):
 
 			if output:
 				#if connection is succesful
-				print 'Network Name: %s\n Network SSID: %s\n Network Password: %s\n' % (net_names_array[i],net_data[i],alllow_pass)
+				print('Network Name: %s\n Network SSID: %s\n Network Password: %s\n' % (net_names_array[i],net_data[i],passwords[1][0]))
 				sys.exit()
 	
 
@@ -98,4 +98,4 @@ with open(PASSWORDS, 'rU') as f:
 	reader = csv.reader(f)
 	for i, line in enumerate(reader):
 		#print line
-		process_element(i,line,net_array)
+		process_element(i,line,network_data	)	
